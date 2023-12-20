@@ -33,8 +33,6 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-      SEMGREP_REPO_NAME: 'from-github/javaspringvulny'
-      SEMGREP_REPO_URL: 'https://github.com/r2c-CSE/javaspringvulny'
     container:
       image: returntocorp/semgrep
     steps:
@@ -43,4 +41,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: gradlelockfile
-      - run: semgrep ci
+      - run: echo "Event type is ${{ github.event_name }}"
+      - name: Execute Commands for Push Event
+        if: steps.check_event.outputs.event_name == 'push'
+        run: |
+          echo "This is a push event"
+          semgrep ci --oss-only
+  
+      - name: Execute Commands for Schedule Event
+        if: steps.check_event.outputs.event_name == 'schedule'
+        run: |
+          echo "This is a scheduled event"
+          semgrep ci
