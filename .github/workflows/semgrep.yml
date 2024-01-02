@@ -38,7 +38,7 @@ jobs:
       image: returntocorp/semgrep
     steps:
     - uses: actions/checkout@v3
-    - run: semgrep ci --verbose --oss-only --output --json report.json
+    - run: semgrep ci --verbose --oss-only --json --output report.json
     - name: Upload Report     
       uses: actions/upload-artifact@v3
       with:
