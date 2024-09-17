@@ -22,6 +22,7 @@ public class JwtLog4jController {
         while (headers.hasMoreElements()) {
             String it = headers.nextElement();
             logger.info("{} = {}", it, request.getHeader(it));
+            logger.info("{}", it);
         }
         logger.info("Hitting Log4J route");
         logger.info(text);
